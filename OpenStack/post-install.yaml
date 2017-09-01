@@ -1,0 +1,10 @@
+#cloud-config
+
+package_upgrade: true
+
+# Add users to the system. Users are added after groups are added.
+users:
+  - default
+  - name: root
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDgchsDloH7IbY58xoKWKvV2aIQ2OG0p2CUW8hYwk24Cz9Uw6diyxCSwSONJOx5iwtwebbT/P37Pv2QWPuUWndSxgR5w9lJenQNo+jnB9KbBedaRt7Pxy3z5o0ShJ68db1WaXKJEvGUSXHA8IwF2K47eN9XGTiFk4DhOxQ/SoxZ0UCXiboFYrN1iBI02Cm3ERTPF1GReDDmTjm29YgdS0rPMrjC3P4z2p7mWtDilBn/sNaXZgsJn1p6Ncf2+t8FXvmwgBpteMW7GdmQkuSZspGPBVgkIMAOZeltUiCWnCHecABColUSZPtiLtFb3DMcCRDeO1B5FqJXIGd2TLDAO86T root@ansible-server-00

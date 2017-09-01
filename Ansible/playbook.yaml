@@ -1,0 +1,23 @@
+---
+- hosts: web
+  remote_user: root
+  tasks:
+  - name: ensure apache is at the latest version
+    apt: name={{item}} state=latest
+    with_items:
+        - apache2
+        - curl
+  - name: ensure apache is running (and enable it at boot)
+    service: name=apache2 state=started enabled=yes
+
+  - name: copy DBaaS scripts
+    copy:
+        src: /root/workshop-ansible/DBaaS-TS/put-load-dbaas-ts.sh
+        dest: /usr/local/bin/put-load-dbaas-ts.sh
+        mode: 0755
+  - name: copy iptables scripts
+    copy:
+        src: /root/workshop-ansible/Ansible/iptables-status
+        dest: /usr/local/bin/iptables-status
+        mode: 0755
+  - cron: name="DBaaS TS cron" job="for i in 0 1 2 3 4 5; do /usr/local/bin/put-load-dbaas-ts.sh & sleep 10; done; /usr/local/bin/put-load-dbaas-ts.sh"
