@@ -6,7 +6,7 @@ use warnings;
 use Term::ANSIColor;
 use Data::Dumper;
 
-my $servers = `source ~/OpenStack/openrc.sh && nova list 2>&1 | grep -Ev "server00|tool" | awk '{ print \$4 }' | grep server | tr '\n' ' '`;
+my $servers = `source ~/workshop-ansible/OpenStack/openrc.sh && nova list 2>&1 | grep -Ev "server00|server-00" | awk '{ print \$4 }' | grep server | tr '\n' ' '`;
 my @servers = split / /, $servers;
 
 foreach my $server (@servers)
@@ -17,7 +17,7 @@ foreach my $server (@servers)
     {
         my $load = sprintf("%.2f",$rawload);
         chomp ($load);
-        my $running = `source ~/OpenStack/openrc.sh && nova list 2>&1 | grep -c $server-fresh`;
+        my $running = `source ~/workshop-ansible/OpenStack/openrc.sh && nova list 2>&1 | grep -c $server-fresh`;
         if ( $load >= 0.75 )
         {   
             if ( $running == 0 )
@@ -29,7 +29,7 @@ foreach my $server (@servers)
                 else
                 {
                     printf("Host %-25s on fire (%s)  [spawning a fresh new instance]\n", colored($server, 'bold cyan'), colored($load, 'bold red'));
-                    `source ~/OpenStack/openrc.sh && nova boot --flavor vps-ssd-1 --image 'Debian 8' --user-data ~/OpenStack/post-install.yaml $server-fresh 2>&1`;
+                    `source ~/workshop-ansible/OpenStack/openrc.sh && nova boot --flavor vps-ssd-1 --image 'Debian 8' --user-data ~/workshop-ansible/OpenStack/post-install.yaml $server-fresh 2>&1`;
                 }
             }
             else
@@ -46,7 +46,7 @@ foreach my $server (@servers)
             else
             {   
                 printf("Host %-25s is fine (%s)  [so %s will be destroyed]\n", colored($server, 'bold cyan'), colored($load, 'bold green'), "$server-fresh");
-                `source ~/OpenStack/openrc.sh && nova delete '$server-fresh' 2>&1`;
+                `source ~/workshop-ansible/OpenStack/openrc.sh && nova delete '$server-fresh' 2>&1`;
             }
         }
     } else { printf("Host %-25s not in DBaaS-TS [be patient, or do something!]\n", colored($server, 'bold cyan')) }
