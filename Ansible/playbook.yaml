@@ -20,4 +20,4 @@
         src: /root/workshop-ansible/Ansible/iptables-status
         dest: /usr/local/bin/iptables-status
         mode: 0755
-  - cron: name="DBaaS TS cron" job="for i in 0 1 2 3 4 5; do /usr/local/bin/put-load-dbaas-ts.sh & sleep 10; done; /usr/local/bin/put-load-dbaas-ts.sh"
+  - cron: name="DBaaS TS cron" job="for i in 0 1 2 3; do /usr/local/bin/put-load-dbaas-ts.sh & sleep 15; done; /usr/local/bin/put-load-dbaas-ts.sh"
