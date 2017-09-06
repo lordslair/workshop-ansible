@@ -6,8 +6,29 @@ use warnings;
 use Term::ANSIColor;
 use Data::Dumper;
 
-my $servers = `source ~/workshop-ansible/OpenStack/openrc.sh && nova list 2>&1 | grep -Ev "server00|server-00" | awk '{ print \$4 }' | grep server | tr '\n' ' '`;
-my @servers = split / /, $servers;
+use lib '/root/workshop-ansible/OpenStack/lib/';
+use OpenStack::Client::Auth ();
+
+my $auth = OpenStack::Client::Auth->new($ENV{'OS_AUTH_URL'},
+    'tenant'   => $ENV{'OS_TENANT_NAME'},
+    'username' => $ENV{'OS_USERNAME'},
+    'password' => $ENV{'OS_PASSWORD'}
+);
+
+my $nova = $auth->service('compute');
+
+my @servers;
+$nova->each("/servers", sub {
+    my ($result) = @_;
+
+    foreach my $server (@{$result->{'servers'}})
+    {
+        if ( $server->{'name'} !~ /00$/ )
+        {
+            push @servers, $server->{'name'};
+        }
+    }
+});
 
 foreach my $server (@servers)
 {   
