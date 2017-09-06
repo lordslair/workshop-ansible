@@ -1,8 +1,10 @@
 #!/bin/bash
 
+CREDENTIALS=`cat /root/workshop-ansible/credentials.write`
 LOAD=`awk '{ print $1 }' /proc/loadavg`
+
 curl -XPOST https://opentsdb-gra1.tsaas.ovh.com/api/put \
-     -u "<metrics-user-write>:<metrics-pass-write>" \
+     -u "$CREDENTIALS" \
      -H "Content-Type: application/json" \
      -d '{ 
             "metric":"loadavg", 
