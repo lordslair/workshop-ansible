@@ -17,7 +17,10 @@ foreach my $server (@servers)
     {
         my $load = sprintf("%.2f",$rawload);
         chomp ($load);
-        my $running = `source ~/workshop-ansible/OpenStack/openrc.sh && nova list 2>&1 | grep -c $server-fresh`;
+        
+        my $running;
+        if (grep /$server-fresh/, @servers) { $running = 1 } else { $running = 0 }
+
         if ( $load >= 0.75 )
         {   
             if ( $running == 0 )
