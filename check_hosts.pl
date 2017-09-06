@@ -11,7 +11,7 @@ my @servers = split / /, $servers;
 
 foreach my $server (@servers)
 {   
-    my $rawload = `/root/DBaaS-TS/get-load-dbaas-ts.sh $server | awk '{ print \$2 }'`;
+    my $rawload = `/root/workshop-ansible/DBaaS-TS/get-load-dbaas-ts.sh $server | awk '{ print \$2 }'`;
 
     if ( $rawload !~ /^\s*$/ )
     {
