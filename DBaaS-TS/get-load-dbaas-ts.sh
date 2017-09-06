@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CREDENTIALS=`cat /root/workshop-ansible/credentials.read`
+CREDENTIALS=`cat /root/workshop-ansible/DBaaS-TS/credentials.read`
 
 curl -s -XPOST https://opentsdb-gra1.tsaas.ovh.com/api/query/last \
      -u "$CREDENTIALS" \

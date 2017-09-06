@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CREDENTIALS=`cat /root/workshop-ansible/credentials.write`
+CREDENTIALS=`cat /root/workshop-ansible/DBaaS-TS/credentials.write`
 LOAD=`awk '{ print $1 }' /proc/loadavg`
 
 curl -XPOST https://opentsdb-gra1.tsaas.ovh.com/api/put \

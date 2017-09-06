@@ -1,4 +1,4 @@
-CREDENTIALS=`cat /root/workshop-ansible/credentials.write`
+CREDENTIALS=`cat /root/workshop-ansible/DBaaS-TS/credentials.write`
 
 curl -XPOST https://opentsdb-gra1.tsaas.ovh.com/api/query \
      -u "$CREDENTIALS" \
