@@ -20,8 +20,7 @@ flavor      = nova_client.flavors.find(name="vps-ssd-1")
 data        = open("/root/workshop-ansible/OpenStack/post-install.yaml","r")
 
 for server in servers:
-#    match = re.search(r"(\w*?-\d[1-9])", server.name)
-    match = re.search(r"(\w*?-\d*)", server.name)
+    match = re.search(r"(\w*?-\d[1-9])", server.name)
     if match:
         rawload     = commands.getstatusoutput("/root/workshop-ansible/DBaaS-TS/get-load-dbaas-ts.sh " + server.name + " | awk '{ print $2 }'")
         server_cyan = colored(server.name, 'cyan' , attrs=['bold'])
