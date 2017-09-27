@@ -49,6 +49,8 @@ for server in servers:
                     print("Host %-36s is fine (%s)"% (server_cyan, load_green))
                 else:
                     print("Host %-36s is fine (%s)  [so %s will be destroyed]"% (server_cyan, load_green, server.name + '-fresh'))
+                    server = nova_client.servers.find(name=fresh)
+                    nova_client.servers.delete(server.id)
 
         else:
             print("Host %-36s not in DBaaS-TS [be patient, or do something!]"% (server_cyan))
