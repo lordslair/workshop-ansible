@@ -1,0 +1,10 @@
+# We only open SSH from ansible-server-00
+# And DROP everything else
+*filter
+:INPUT DROP [0:0]
+-A INPUT -i lo                                                                         -j ACCEPT
+-A INPUT                                        -m state   --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -s 147.135.135.28 -p tcp --dport 22    -m comment --comment "INPUT SSH"       -j ACCEPT
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+COMMIT

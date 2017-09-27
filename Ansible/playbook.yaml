@@ -2,22 +2,38 @@
 - hosts: web
   remote_user: root
   tasks:
-  - name: ensure apache is at the latest version
-    apt: name={{item}} state=latest
-    with_items:
-        - apache2
-        - curl
-  - name: ensure apache is running (and enable it at boot)
-    service: name=apache2 state=started enabled=yes
-
   - name: copy DBaaS scripts
     copy:
         src: /root/workshop-ansible/DBaaS-TS/put-load-dbaas-ts.sh
         dest: /usr/local/bin/put-load-dbaas-ts.sh
         mode: 0755
+  - name: creates directory
+    file:
+        path: /root/workshop-ansible/DBaaS-TS
+        state: directory
+  - name: copy DBaaS credentials
+    copy:
+        src: /root/workshop-ansible/DBaaS-TS/credentials.write
+        dest: /root/workshop-ansible/DBaaS-TS/credentials.write
+        mode: 0644
+  - name: Install the package "iptables-persistent"
+    apt: name={{item}} state=installed
+    with_items:
+        - iptables-persistent
+        - curl
   - name: copy iptables scripts
     copy:
         src: /root/workshop-ansible/Ansible/iptables-status
         dest: /usr/local/bin/iptables-status
         mode: 0755
+  - name: copy iptables rules
+    copy:
+        src: /root/workshop-ansible/Ansible/rules.v4
+        dest: /etc/iptables/rules.v4
+        mode: 0644
+    notify: 
+        - restart netfilter-persistent
   - cron: name="DBaaS TS cron" job="for i in 0 1 2 3; do /usr/local/bin/put-load-dbaas-ts.sh & sleep 15; done; /usr/local/bin/put-load-dbaas-ts.sh"
+  handlers:
+    - name: restart netfilter-persistent
+      service: name=netfilter-persistent state=restarted
