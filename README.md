@@ -13,7 +13,7 @@ ansible-server-02 : Slave worker
 When a slave worker has a load > 0.75, the Mothership spawns a new instance, and Ansible configures it.  
 Actually, as 1.0, it works this way.  
 
-So on full load on -01 and -02 you end up with 5 instances.  
+So if ansible-server-01 and ansible-server-02 have load, you end up with 5 instances.  
 The mothership and ansible-server-0{1,2,3,4}
 
 ### Which script does what ?
@@ -31,7 +31,7 @@ The mothership and ansible-server-0{1,2,3,4}
 │   ├── delete.sh                     |    Delete all data in DBaaS-TS
 │   ├── get-all-load-dbaas-ts.sh      |  
 │   ├── get-load-dbaas-ts.sh          |  
-│   └── put-load-dbaas-ts.sh          |  Used in crontab to fill DBaaS-TS
+│   └── put-load-dbaas-ts.sh          |    Used in crontab to fill DBaaS-TS
 ├── init-workshop.py                  |  Deploys the workshop (creates -0{1,2} & test SMS)
 ├── OpenStack
 │   ├── credentials.py                |    Get ENVVAR and pythonize them
