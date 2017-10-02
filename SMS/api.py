@@ -2,3 +2,5 @@
 appkey='<application_key>'
 appsec='<application_secret>'
 conkey='<consumer_key>'
+receiver="+33XXXXXXXXX>"
+sender='<API_approved_sender'
