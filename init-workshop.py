@@ -3,8 +3,9 @@
 import sys
 import re
 import os
-import commands
-import base64
+
+sys.path.insert(0, '/root/workshop-ansible/SMS/')
+from sms import send_sms
 
 sys.path.insert(0, '/root/workshop-ansible/OpenStack/')
 from credentials import get_nova_credentials_v2
@@ -31,3 +32,5 @@ for todo in todos:
                                    flavor   = flavor.id,
                                    userdata = data)
         print (todo + " is being spawned")
+
+sms = send_sms('Testing SMS credentials. You read this ? Everything is OK')
